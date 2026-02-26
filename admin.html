@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - AI Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="admin-container glassmorphism">
+        <h1>⚙️ Admin Panel</h1>
+        
+        <div class="admin-sections">
+            <div class="admin-section">
+                <h2>💎 Manajemen Token</h2>
+                <div class="form-group">
+                    <label>Username Member</label>
+                    <input type="text" id="token-username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <label>Jumlah Token</label>
+                    <input type="number" id="token-amount" value="100">
+                </div>
+                <button onclick="addTokens()" class="admin-btn">➕ Tambah Token</button>
+                <button onclick="reduceTokens()" class="admin-btn">➖ Kurangi Token</button>
+            </div>
+            
+            <div class="admin-section">
+                <h2>👥 Manajemen Akun</h2>
+                <div class="form-group">
+                    <label>Username yang akan dihapus</label>
+                    <input type="text" id="delete-username" placeholder="Username">
+                </div>
+                <button onclick="deleteAccount()" class="admin-btn delete-btn">🗑️ Hapus Akun</button>
+            </div>
+            
+            <div class="admin-section">
+                <h2>📝 Manajemen Prompt</h2>
+                <textarea id="prompt-content" rows="10" placeholder="Isi prompt..."></textarea>
+                <button onclick="savePrompt()" class="admin-btn">💾 Simpan Prompt</button>
+                <button onclick="loadPrompt()" class="admin-btn">📂 Load Prompt</button>
+                <button onclick="deletePrompt()" class="admin-btn delete-btn">🗑️ Hapus Prompt</button>
+            </div>
+            
+            <div class="admin-section">
+                <h2>📊 Daftar User</h2>
+                <div id="user-list"></div>
+                <button onclick="refreshUserList()" class="admin-btn">🔄 Refresh</button>
+            </div>
+        </div>
+        
+        <button onclick="logout()" class="logout-btn">Logout</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

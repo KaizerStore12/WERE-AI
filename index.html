@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI - WERO</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="chat-container glassmorphism">
+        <div class="chat-header">
+            <h1>🤖 WERO AI</h1>
+            <div class="user-info">
+                <span id="username-display">User</span>
+                <button id="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+        
+        <div class="token-info">
+            <span>💎 Token: <span id="token-count">0</span></span>
+        </div>
+        
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot">
+                <div class="avatar">🤖</div>
+                <div class="content">Halo! Saya Wero AI. Ada yang bisa saya bantu?</div>
+            </div>
+        </div>
+        
+        <div class="chat-input-container">
+            <textarea id="user-input" placeholder="Ketik pesan..." rows="1"></textarea>
+            <button id="send-btn" onclick="sendMessage()">🚀 Kirim</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

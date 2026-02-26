@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - AI WERO</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="auth-container glassmorphism">
+        <div class="auth-box">
+            <h1>📝 Register - WEROAI</h1>
+            
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="reg-username" placeholder="Pilih username">
+            </div>
+            
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="reg-password" placeholder="Buat password">
+            </div>
+            
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" id="reg-confirm" placeholder="Konfirmasi password">
+            </div>
+            
+            <button onclick="handleRegister()" class="auth-btn">Daftar</button>
+            
+            <p>Sudah punya akun? <a href="login.html">Login disini</a></p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,874 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Teleram, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    color: white;
+    background: radial-gradient(circle at center, #1a1a2e, #16213e, #0f0f1f);
+}
+
+/* ================ 3D CANVAS CONTAINER ================ */
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    filter: blur(0.5px) brightness(1.1);
+}
+
+/* ================ SUPER GLASSMORPHISM 3D ================ */
+.glassmorphism {
+    background: rgba(10, 10, 25, 0.3);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 25px;
+    box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+        0 0 30px rgba(0, 168, 255, 0.2);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    animation: glassPulse 4s infinite ease-in-out;
+}
+
+@keyframes glassPulse {
+    0%, 100% { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05) inset, 0 0 30px rgba(0,168,255,0.2); }
+    50% { box-shadow: 0 35px 60px -12px rgba(0,0,0,0.7), 0 0 0 2px rgba(255,255,255,0.1) inset, 0 0 50px rgba(156,39,176,0.3); }
+}
+
+/* ================ CHAT CONTAINER 3D ================ */
+.chat-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateX(2deg) rotateY(1deg);
+    width: 90%;
+    max-width: 900px;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    z-index: 10;
+    transition: transform 0.3s ease;
+    animation: float3D 6s infinite ease-in-out;
+}
+
+.chat-container:hover {
+    transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg) scale(1.02);
+    box-shadow: 0 35px 70px -12px rgba(0,0,0,0.8), 0 0 30px rgba(0,168,255,0.4);
+}
+
+@keyframes float3D {
+    0%, 100% { transform: translate(-50%, -50%) rotateX(2deg) rotateY(1deg) translateY(0); }
+    50% { transform: translate(-50%, -52%) rotateX(1deg) rotateY(2deg) translateY(-10px); }
+}
+
+/* ================ CHAT HEADER 3D ================ */
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(255,255,255,0.1);
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.chat-header::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 50%;
+    height: 2px;
+    background: linear-gradient(90deg, #00a8ff, #9c27b0, transparent);
+    animation: headerGlow 3s infinite linear;
+}
+
+@keyframes headerGlow {
+    0% { left: -50%; }
+    100% { left: 100%; }
+}
+
+.chat-header h1 {
+    font-size: 2em;
+    background: linear-gradient(45deg, #00a8ff, #9c27b0, #ff6b6b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 20px rgba(0,168,255,0.5);
+    letter-spacing: 2px;
+    transform: translateZ(20px);
+}
+
+.user-info {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    background: rgba(255,255,255,0.05);
+    padding: 8px 15px;
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+}
+
+#username-display {
+    color: #00a8ff;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(0,168,255,0.5);
+}
+
+#logout-btn {
+    padding: 6px 15px;
+    background: rgba(255,70,70,0.2);
+    border: 1px solid rgba(255,70,70,0.4);
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#logout-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255,70,70,0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+}
+
+#logout-btn:hover::before {
+    width: 150px;
+    height: 150px;
+}
+
+#logout-btn:hover {
+    background: rgba(255,70,70,0.4);
+    border-color: rgba(255,70,70,0.8);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255,70,70,0.3);
+}
+
+/* ================ TOKEN INFO 3D ================ */
+.token-info {
+    padding: 12px 20px;
+    background: linear-gradient(135deg, rgba(0,255,0,0.1), rgba(0,168,255,0.1));
+    border-radius: 50px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: bold;
+    border: 1px solid rgba(0,255,0,0.2);
+    box-shadow: 0 0 20px rgba(0,255,0,0.1);
+    backdrop-filter: blur(5px);
+    position: relative;
+    overflow: hidden;
+    animation: tokenPulse 3s infinite;
+}
+
+@keyframes tokenPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(0,255,0,0.1); }
+    50% { box-shadow: 0 0 40px rgba(0,168,255,0.3); }
+}
+
+.token-info::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255,255,255,0.1),
+        transparent
+    );
+    transform: rotate(45deg);
+    animation: tokenShine 4s infinite;
+}
+
+@keyframes tokenShine {
+    0% { transform: rotate(45deg) translateY(-100%); }
+    100% { transform: rotate(45deg) translateY(100%); }
+}
+
+#token-count {
+    color: #00ff88;
+    font-size: 1.5em;
+    text-shadow: 0 0 20px #00ff88;
+    margin-left: 10px;
+}
+
+/* ================ CHAT MESSAGES 3D ================ */
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    scroll-behavior: smooth;
+}
+
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #00a8ff, #9c27b0);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,168,255,0.5);
+}
+
+/* ================ MESSAGE BUBBLES 3D ================ */
+.message {
+    display: flex;
+    gap: 15px;
+    max-width: 80%;
+    animation: messageAppear 0.3s ease-out;
+    transform-style: preserve-3d;
+}
+
+@keyframes messageAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px) rotateX(-10deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+    }
+}
+
+.message.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00a8ff, #9c27b0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border: 2px solid rgba(255,255,255,0.2);
+    transform: translateZ(15px);
+    transition: transform 0.3s ease;
+}
+
+.message:hover .avatar {
+    transform: translateZ(25px) scale(1.1);
+}
+
+.content {
+    padding: 15px 20px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 20px;
+    word-wrap: break-word;
+    line-height: 1.5;
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transform: translateZ(10px);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.1),
+        transparent
+    );
+    transition: left 0.5s ease;
+}
+
+.message:hover .content::before {
+    left: 100%;
+}
+
+.message.user .content {
+    background: linear-gradient(135deg, rgba(0,168,255,0.2), rgba(156,39,176,0.2));
+    border-color: rgba(0,168,255,0.3);
+}
+
+.message.bot .content {
+    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(0,168,255,0.05));
+}
+
+.content:hover {
+    transform: translateZ(20px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(0,168,255,0.3);
+}
+
+/* ================ CHAT INPUT 3D ================ */
+.chat-input-container {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    padding: 10px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transform-style: preserve-3d;
+}
+
+#user-input {
+    flex: 1;
+    padding: 15px 25px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50px;
+    color: white;
+    resize: none;
+    font-family: inherit;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2) inset;
+}
+
+#user-input:focus {
+    outline: none;
+    border-color: #00a8ff;
+    box-shadow: 0 0 20px rgba(0,168,255,0.3), 0 5px 15px rgba(0,0,0,0.2) inset;
+    transform: translateZ(10px);
+}
+
+#send-btn {
+    padding: 0 35px;
+    background: linear-gradient(45deg, #00a8ff, #9c27b0, #ff6b6b);
+    background-size: 200% 200%;
+    border: none;
+    border-radius: 50px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: gradientMove 3s infinite;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+#send-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+}
+
+#send-btn:hover::before {
+    width: 200px;
+    height: 200px;
+}
+
+#send-btn:hover {
+    transform: translateY(-3px) translateZ(20px);
+    box-shadow: 0 10px 30px rgba(0,168,255,0.5);
+}
+
+#send-btn:active {
+    transform: translateY(0) translateZ(10px);
+}
+
+/* ================ AUTH CONTAINERS 3D ================ */
+.auth-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateY(5deg) rotateX(2deg);
+    width: 90%;
+    max-width: 450px;
+    padding: 40px;
+    z-index: 10;
+    animation: authFloat 5s infinite ease-in-out;
+}
+
+@keyframes authFloat {
+    0%, 100% { transform: translate(-50%, -50%) rotateY(5deg) rotateX(2deg) translateY(0); }
+    50% { transform: translate(-50%, -53%) rotateY(3deg) rotateX(3deg) translateY(-15px); }
+}
+
+.auth-box {
+    text-align: center;
+}
+
+.auth-box h1 {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    background: linear-gradient(45deg, #00a8ff, #9c27b0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(0,168,255,0.5);
+    transform: translateZ(30px);
+}
+
+/* ================ FORM GROUPS 3D ================ */
+.form-group {
+    margin-bottom: 25px;
+    text-align: left;
+    transform-style: preserve-3d;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: rgba(255,255,255,0.9);
+    font-size: 0.95em;
+    letter-spacing: 1px;
+    transform: translateZ(10px);
+}
+
+.form-group input, 
+.form-group textarea {
+    width: 100%;
+    padding: 15px 20px;
+    background: rgba(0,0,0,0.3);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 15px;
+    color: white;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    transform: translateZ(5px);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #00a8ff;
+    box-shadow: 0 0 30px rgba(0,168,255,0.3);
+    transform: translateZ(15px);
+}
+
+/* ================ AUTH BUTTONS 3D ================ */
+.auth-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(45deg, #00a8ff, #9c27b0);
+    border: none;
+    border-radius: 15px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(10px);
+    transition: all 0.3s ease;
+}
+
+.auth-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+}
+
+.auth-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.auth-btn:hover {
+    transform: translateZ(20px) translateY(-2px);
+    box-shadow: 0 15px 35px rgba(0,168,255,0.4);
+}
+
+.auth-box a {
+    color: #00a8ff;
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 2px;
+}
+
+.auth-box a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg, #00a8ff, #9c27b0);
+    transition: width 0.3s ease;
+}
+
+.auth-box a:hover::after {
+    width: 100%;
+}
+
+/* ================ ADMIN PANEL 3D ================ */
+.admin-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateX(1deg);
+    width: 95%;
+    max-width: 1300px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 35px;
+    z-index: 10;
+    animation: adminFloat 7s infinite ease-in-out;
+}
+
+@keyframes adminFloat {
+    0%, 100% { transform: translate(-50%, -50%) rotateX(1deg) translateY(0); }
+    50% { transform: translate(-50%, -51%) rotateX(0.5deg) translateY(-10px); }
+}
+
+.admin-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    margin: 25px 0;
+}
+
+.admin-section {
+    padding: 25px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 25px;
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    transform: translateZ(15px);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(0,168,255,0.1), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.admin-section:hover::before {
+    opacity: 1;
+}
+
+.admin-section:hover {
+    transform: translateZ(25px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(0,168,255,0.2);
+}
+
+.admin-section h2 {
+    margin-bottom: 20px;
+    font-size: 1.4em;
+    background: linear-gradient(45deg, #00a8ff, #9c27b0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 1px;
+}
+
+/* ================ ADMIN BUTTONS 3D ================ */
+.admin-btn {
+    padding: 12px 20px;
+    margin: 5px;
+    background: rgba(0,150,255,0.15);
+    border: 1px solid rgba(0,150,255,0.3);
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(5px);
+}
+
+.admin-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(0,150,255,0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+}
+
+.admin-btn:hover::before {
+    width: 200px;
+    height: 200px;
+}
+
+.admin-btn:hover {
+    background: rgba(0,150,255,0.25);
+    border-color: rgba(0,150,255,0.6);
+    transform: translateZ(15px) translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,150,255,0.3);
+}
+
+.delete-btn {
+    background: rgba(255,70,70,0.15);
+    border-color: rgba(255,70,70,0.3);
+}
+
+.delete-btn:hover {
+    background: rgba(255,70,70,0.25);
+    border-color: rgba(255,70,70,0.6);
+    box-shadow: 0 10px 20px rgba(255,70,70,0.3);
+}
+
+/* ================ LOGOUT BUTTON 3D ================ */
+.logout-btn {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    padding: 12px 25px;
+    background: rgba(255,70,70,0.2);
+    border: 1px solid rgba(255,70,70,0.4);
+    border-radius: 50px;
+    color: white;
+    cursor: pointer;
+    z-index: 100;
+    backdrop-filter: blur(5px);
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    transform: translateZ(20px);
+    overflow: hidden;
+}
+
+.logout-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255,70,70,0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+}
+
+.logout-btn:hover::before {
+    width: 200px;
+    height: 200px;
+}
+
+.logout-btn:hover {
+    background: rgba(255,70,70,0.4);
+    border-color: rgba(255,70,70,0.8);
+    transform: translateZ(30px) translateY(-3px);
+    box-shadow: 0 10px 25px rgba(255,70,70,0.4);
+}
+
+/* ================ USER LIST 3D ================ */
+#user-list {
+    max-height: 250px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.user-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 15px;
+    margin: 8px 0;
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: all 0.3s ease;
+    transform: translateZ(5px);
+}
+
+.user-item:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateZ(10px) scale(1.02);
+    border-color: rgba(0,168,255,0.3);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* ================ LOADING ANIMATION ================ */
+.message.loading .content {
+    background: linear-gradient(90deg, 
+        rgba(255,255,255,0.05) 25%, 
+        rgba(0,168,255,0.1) 50%, 
+        rgba(255,255,255,0.05) 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    color: transparent;
+    position: relative;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ================ ERROR MESSAGE ================ */
+.message.error .content {
+    background: rgba(255,70,70,0.2);
+    border-color: rgba(255,70,70,0.4);
+    color: #ff9999;
+}
+
+/* ================ 3D TEXT EFFECTS ================ */
+.glow-text {
+    text-shadow: 
+        0 0 10px rgba(0,168,255,0.5),
+        0 0 20px rgba(0,168,255,0.3),
+        0 0 30px rgba(156,39,176,0.2);
+}
+
+/* ================ PARTICLE BACKGROUND ================ */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ================ MEDIA QUERIES ================ */
+@media (max-width: 768px) {
+    .chat-container {
+        width: 95%;
+        height: 90vh;
+        padding: 15px;
+    }
+    
+    .message {
+        max-width: 90%;
+    }
+    
+    .admin-sections {
+        grid-template-columns: 1fr;
+    }
+    
+    .chat-header h1 {
+        font-size: 1.5em;
+    }
+    
+    #send-btn {
+        padding: 0 20px;
+    }
+    
+    .auth-container {
+        width: 95%;
+        padding: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .chat-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .user-info {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .message {
+        max-width: 100%;
+    }
+}
+
+/* ================ ANIMATIONS ================ */
+@keyframes rotate3D {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+}
+
+.rotate-3d {
+    animation: rotate3D 10s infinite linear;
+}
+
+/* ================ CUSTOM SCROLLBAR ================ */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(10, 10, 25, 0.5);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #00a8ff, #9c27b0);
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,168,255,0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #00a8ff, #ff6b6b);
+}
+
+/* ================ SELECTION STYLE ================ */
+::selection {
+    background: rgba(0,168,255,0.3);
+    color: white;
+}
+
+/* ================ FOCUS STYLE ================ */
+:focus {
+    outline: 2px solid rgba(0,168,255,0.5);
+    outline-offset: 2px;
+}
