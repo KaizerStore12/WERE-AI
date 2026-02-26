@@ -1,6 +1,6 @@
 // ================ KONFIGURASI API DEEPSEEK ================
 // GANTI DENGAN API KEY ANDA DARI DeepSeek
-const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY || 'YOUR_DEEPSEEK_API_KEY_HERE'; // Dapatkan dari platform DeepSeek
+const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY || 'sk-98986032f5dc4b79927993dd4730005a'; // Dapatkan dari platform DeepSeek
 
 // ================ DATA STORAGE (Simulasi Database) ================
 // Load users dari localStorage atau gunakan default
