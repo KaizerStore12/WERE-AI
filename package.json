@@ -1,0 +1,12 @@
+{
+  "name": "deepseek-chatbot-vercel",
+  "version": "1.0.0",
+  "description": "DeepSeek AI Chatbot deployed on Vercel",
+  "type": "module",
+  "dependencies": {
+    "openai": "^4.28.0"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}
